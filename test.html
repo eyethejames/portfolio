@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Visitor Log</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f4f4f4;
+      }
+      pre {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Visitor Log Test</h2>
+    <button onclick="send()" style="padding: 1rem 2rem; font-size: 1.2rem">
+      Send Test Visit
+    </button>
+    <pre id="log"></pre>
+
+    <script>
+      function send() {
+        const log = document.getElementById("log");
+        log.textContent = "Sending...\n";
+
+        fetch(
+          "https://script.google.com/macros/s/AKfycbzQy_LHGbabtSbzdzFLsPUgVy7pDwAorOEpHTL2mG0zhdCvYykbAxll2-r2u77Q10OB4g/exec",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: "testuser",
+              myName: "Jakob",
+              color: "Blood Red",
+              hue: 0,
+            }),
+          }
+        )
+          .then((r) => r.text())
+          .then((text) => {
+            log.textContent += text + "\n";
+            if (text.includes("success")) {
+              log.textContent +=
+                "SUCCESS! Check your Google Sheet in 5 seconds.";
+            }
+          })
+          .catch((err) => {
+            log.textContent += "ERROR: " + err + "\n";
+          });
+      }
+    </script>
+  </body>
+</html>
