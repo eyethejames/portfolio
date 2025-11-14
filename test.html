@@ -25,10 +25,10 @@
     <script>
       function send() {
         const log = document.getElementById("log");
-        log.textContent = "Sending (no-cors)...\n";
+        log.textContent = "Sending...\n";
 
         fetch(
-          "https://script.google.com/macros/s/AKfycbzQy_LHGbabtSbzdzFLsPUgVy7pDwAorOEpHTL2mG0zhdCvYykbAxll2-r2u77Q10OB4g/exec",
+          "https://script.google.com/macros/s/AKfycbzKAfhF6Y74Ulpq0DCPLRLPQGkYfJ0yqgUx-7TOr0fcB4xjLipvvMsoLkFNntR6ej1tJA/exec",
           {
             method: "POST",
             mode: "no-cors",
@@ -43,7 +43,7 @@
         );
 
         log.textContent += "Request sent!\n";
-        log.textContent += "Check your Google Sheet in 5 seconds.";
+        log.textContent += "Check Google Sheet in 5 seconds.";
       }
     </script>
   </body>
