@@ -195,6 +195,22 @@ function submitColor() {
   document.getElementById("finalHue").innerText = colorName;
   document.getElementById("usersName").innerText =
     localStorage.getItem("username") || "anonym";
+
+  // Send to Google Sheets
+  fetch(
+    "https://script.google.com/macros/s/AKfycbzQy_LHGbabtSbzdzFLsPUgVy7pDwAorOEpHTL2mG0zhdCvYykbAxll2-r2u77Q10OB4g/exec",
+    {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({
+        username: localStorage.getItem("username") || "anonym",
+        myName: myName,
+        color: colorName,
+        hue: hue,
+      }),
+    }
+  );
 }
 
 // HSL to HEX converter
