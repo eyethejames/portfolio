@@ -1,0 +1,485 @@
+:root {
+  --gold: #ffc004;
+  --blue: #030356;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: center;
+  background: #4c1515;
+  color: #f8f8f8;
+  padding: 2rem;
+  min-height: 100vh;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Standard Headings */
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display";
+  color: var(--gold);
+  text-align: center;
+}
+
+/* Standard Text */
+p {
+  color: rgb(255, 255, 255);
+  max-width: 675px;
+  margin: 1 auto 1.5rem;
+  font-size: 1.05rem;
+}
+
+/* Standard Info Card */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 192, 4, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  max-width: 1200px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Standard Buttons */
+button {
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: #fff;
+  overflow: hidden;
+  outline: none;
+  border-radius: 250px;
+  padding: 12px 20px;
+  background-color: rgb(3, 3, 86); /* Your blue */
+  box-shadow: 0 4px 12px rgba(3, 3, 86, 0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+  border: 3px solid #ffc004;
+}
+
+/* Standard Card Reaveals */
+[id$="Card"] {
+  opacity: 0;
+  transform: translateY(40px);
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 2rem;
+  pointer-events: none;
+}
+
+/* === OPENING BLOCK === */
+#openingBlock {
+  text-align: center;
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  backdrop-filter: blur(16px);
+
+  /* Start: fully blurred, fully opaque */
+  opacity: 1;
+  filter: blur(24px);
+  transition: filter 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 500px;
+  overflow: hidden;
+}
+
+/* === SHARPEN IN === */
+#openingBlock.visible {
+  filter: blur(0);
+}
+
+/* === START BUTTON === */
+#startBtn {
+  margin-top: 30px;
+  border: none;
+}
+
+#startBtn:hover {
+  transform: scale(1.5);
+  border: 3px solid #ffc004;
+  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
+}
+
+/* === BLUR + FADE OUT */
+#openingBlock.removing {
+  opacity: 0;
+  filter: blur(10px);
+  max-height: 0;
+  padding: 0 2rem;
+  margin: 0;
+  overflow: hidden;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.8s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.7s ease,
+    padding 0.7s ease, margin 0.7s ease;
+}
+
+/* === USERNAME CARD REVEAL === */
+#usernameCard.visible {
+  animation: slideUpCard 0.7s ease-out forwards;
+  pointer-events: auto;
+}
+
+/* === USERNAME INPUT FIELD === */
+#username {
+  background-color: var(--blue);
+  color: #fff;
+  padding: 0 1rem;
+  border-radius: 250px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 180px;
+}
+
+/* === WRAPPER: Vertical Stack === */
+.username-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.username-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* === SUBMIT USERNAME BUTTON === */
+.arrow-btn {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+.arrow-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+.arrow-btn:hover:not(:disabled) {
+  background: #ffdc5e;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
+}
+
+/* === or-text === */
+#orText {
+  color: rgba(255, 255, 255, 0.684);
+  margin: 0.5rem 0;
+}
+
+/* === ANONYMOUS USERNAME BUTTON === */
+#anonymousBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
+}
+
+/* === USERNAME CARD FADES === */
+#usernameCard.removing {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-20px);
+  max-height: 0;
+  padding: 0 2rem;
+  margin: 0;
+  overflow: hidden;
+  transition: all 0.6s ease;
+}
+
+/* === NAME CARD REVEAL === */
+#nameCard.visible {
+  animation: slideUpCard 0.8s ease-out forwards;
+  pointer-events: auto;
+}
+
+/* === DROPDOWN MENU === */
+select {
+  min-width: 220px; /* Slightly bigger */
+  padding: 0.75rem 1.25rem; /* More space inside */
+  font-size: 1.1rem; /* Bigger text */
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.1); /* Opaque for readability ??? */
+  background-position: right 12px center;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid rgb(255, 192, 4); /* Gold border */
+  color: #ffffff; /* White text */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+select:focus {
+  box-shadow: 0 0 0 3px rgb(0, 0, 0); /* Glow */
+}
+select:hover {
+  transform: translateY(-1.5px);
+}
+
+/* === SUBMIT NAME BUTTON === */
+#submitBtn {
+  padding: 12px 20px;
+  border-radius: 250px;
+  background-color: rgb(3, 3, 86); /* Your blue */
+  box-shadow: 0 4px 12px rgba(3, 3, 86, 0.3);
+  transition: transform 0.15s, box-shadow 0.2s;
+  border: 3px solid #ffc004;
+}
+#submitBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
+}
+#submitBtn:active {
+  transform: scale(0.95);
+}
+
+/* === POP-UP MODAL WHEN !SELECTED NAME === */
+#nameModal {
+  position: fixed;
+  inset: 0;
+  background: rgb(0, 0, 0, 0.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* === POP-UP MODAL BOX === */
+.modal-box {
+  background: #4c1515; /* Matches body bg */
+  color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  border: 2px solid rgb(255, 192, 4); /* Gold border */
+  margin: 0 0 25%;
+}
+
+/* === POP-UP MODAL EMOJI === */
+.modal-avatar {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  background: rgb(255, 192, 4); /* Gold */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* === POP-UP MODAL BUTTONS === */
+.modal-buttons {
+  margin-top: 1rem;
+}
+.cancelBtn {
+  color: #206005;
+  background: #ffc004;
+}
+.okBtn {
+  color: #ffc004;
+  background: #206005;
+}
+.cancelBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+.okBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* === EMPHASIS ON SELECTED NAME === */
+#selectedName {
+  color: rgb(255, 192, 94);
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* === COLOR CARD REVEAL === */
+#colorCard.visible {
+  animation: slideUpCard 0.7s ease-out forwards;
+  pointer-events: auto;
+  margin: 1.5rem auto;
+  padding: 2rem;
+}
+
+/* === HUE SLIDER === */
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+#hueSlider {
+  -webkit-appearance: none; /* Override default */
+  width: 280px; /* Slightly wider */
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1); /* Track */
+  border-radius: 6px;
+  outline: none;
+  margin: 1.5rem 0;
+  transition: background 0.2s;
+}
+#hueSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  background: rgb(255, 192, 4); /* Gold thumb */
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+#hueSlider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.2);
+  box-shadow: 0 0 50px rgba(255, 192, 4, 0.9);
+}
+#hueSlider::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  background: #ffc004;
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 0 15px rgba(255, 192, 4, 0.6);
+  border: 3px solid #fff;
+}
+
+/* === LIVE COLOR NAME PREVIEW */
+#hueValue {
+  display: inline-block;
+  min-width: 150px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* === 'Magic!' Button === */
+#magicBtn {
+  width: 100px;
+  height: 100px;
+  padding: 0;
+  border-radius: 50%;
+  border: 3px solid #ffc004;
+  background: radial-gradient(circle at 50%, #030356, #0166ff);
+  box-shadow: 0 4px 12px rgba(3, 3, 86, 0.3);
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.magicButton-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+#magicBtn:hover {
+  background-color: rgb(81, 129, 241); /* Lighter blue */
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
+}
+#magicBtn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s ease;
+}
+#magicBtn:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+#magicBtn:active {
+  transform: scale(0.95);
+}
+
+/* === STANDARD CARD REVEAL ANIMATION === */
+@keyframes slideUpCard {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    max-height: 0;
+    padding: 0 2rem;
+    margin: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px; /* enough */
+    padding: 2rem;
+    margin: 1.5rem auto;
+  }
+}
+
+/* === POPUP ANIMATION === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* === EMOIJ PULSATING EFFECT === */
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 192, 4, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(255, 192, 4, 0);
+  }
+}
