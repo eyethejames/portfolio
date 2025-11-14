@@ -25,7 +25,7 @@
     <script>
       function send() {
         const log = document.getElementById("log");
-        log.textContent = "Sending...\n";
+        log.textContent = "Sending (no-cors)...\n";
 
         fetch(
           "https://script.google.com/macros/s/AKfycbzQy_LHGbabtSbzdzFLsPUgVy7pDwAorOEpHTL2mG0zhdCvYykbAxll2-r2u77Q10OB4g/exec",
@@ -40,18 +40,10 @@
               hue: 0,
             }),
           }
-        )
-          .then((r) => r.text())
-          .then((text) => {
-            log.textContent += text + "\n";
-            if (text.includes("success")) {
-              log.textContent +=
-                "SUCCESS! Check your Google Sheet in 5 seconds.";
-            }
-          })
-          .catch((err) => {
-            log.textContent += "ERROR: " + err + "\n";
-          });
+        );
+
+        log.textContent += "Request sent!\n";
+        log.textContent += "Check your Google Sheet in 5 seconds.";
       }
     </script>
   </body>
