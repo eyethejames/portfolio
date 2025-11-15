@@ -210,7 +210,7 @@ function submitColor() {
 
   // Send to Google Sheets
   fetch(
-    "https://script.google.com/macros/s/AKfycbx7IJuIES_Vh1KKENRgHZ6AAkgbOyehNrC13bXuvU2B4R2pcLrhqvop3-uEzJV5DxzCRw/exec",
+    "https://script.google.com/macros/s/AKfycbx-wzX-edTcj_0bqyhgPVNjCLFz6EOZ-A5xof9ynVcz5Fx8zpvikEgJYrD0dGLFyt5-Iw/exec",
     {
       method: "POST",
       mode: "no-cors",
