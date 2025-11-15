@@ -1,6 +1,11 @@
 // Global username default
 let username = "anonym";
 
+function logVisit(data, success) {
+  console.log("%cVisit logged:", data);
+  console.log(success ? "fetch succeeded" : "fetch failed");
+}
+
 // DOMContentLoaded : Set up initial event listeners and animations
 document.addEventListener("DOMContentLoaded", () => {
   const openingBlock = document.getElementById("openingBlock");
@@ -196,6 +201,13 @@ function submitColor() {
   document.getElementById("usersName").innerText =
     localStorage.getItem("username") || "anonym";
 
+  const visitData = {
+    username: localStorage.getItem("username") || "anonym",
+    myName: myName,
+    color: colorName,
+    hue: hue,
+  };
+
   // Send to Google Sheets
   fetch(
     "https://script.google.com/macros/s/AKfycbzQy_LHGbabtSbzdzFLsPUgVy7pDwAorOEpHTL2mG0zhdCvYykbAxll2-r2u77Q10OB4g/exec",
@@ -203,14 +215,16 @@ function submitColor() {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify({
-        username: localStorage.getItem("username") || "anonym",
-        myName: myName,
-        color: colorName,
-        hue: hue,
-      }),
+      body: JSON.stringify(visitData),
     }
-  );
+  )
+    .then(() => {
+      logVisit(visitData, true);
+    })
+    .catch((err) => {
+      logVisit(visitData, false);
+      console.error("Fetch error:", err);
+    });
 }
 
 // HSL to HEX converter
