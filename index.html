@@ -143,7 +143,20 @@
 
     <!-- MAIN CONTENT -->
     <div id="mainContent" style="display: none">
-      <section class="info-card">
+      <!-- ==== DYNAMIC NAVIGATION BAR ==== -->
+      <nav id="portfolioNav" class="nav-bar" style="display: none">
+        <button class="nav-btn active" data-section="about">About</button>
+        <button class="nav-btn" data-section="projects">Projects</button>
+        <button class="nav-btn" data-section="contact">Contact</button>
+        <a
+          href="https://github.com/eyethejames"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="nav-btn external"
+          >GitHub</a
+        >
+      </nav>
+      <section id="about" class="info-card">
         <h2>About me</h2>
         <p>
           Hi, I'm Jakob, a fresh developer who invites you to look at my
@@ -151,9 +164,9 @@
         </p>
       </section>
 
-      <section class="info-card">
+      <section id="projects" class="info-card">
         <h2>Projects</h2>
-        <ul>
+        <ul id="projectList">
           <li>Interactive Welcome Screen (this)</li>
           <li>
             <a href="projects/spanishlearner.html" target="_blank"
@@ -176,6 +189,11 @@
           <li>Movie Decider</li>
           <li>Dinner-decider</li>
         </ul>
+      </section>
+
+      <section id="contact" class="info-card">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:jakob@kallevik.no">jakob@kallevik.no</a></p>
       </section>
     </div>
 

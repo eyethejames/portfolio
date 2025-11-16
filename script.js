@@ -273,4 +273,41 @@ function getContrastingText(hex) {
 function enterPortfolio() {
   document.getElementById("welcomeScreen").remove();
   document.getElementById("mainContent").style.display = "block";
+  initNav();
+  showSection("about");
+}
+
+// Dynamic navigation
+function initNav() {
+  const nav = document.getElementById("portfolioNav");
+  nav.style.display = "flex";
+
+  document.querySelectorAll(".nav-btn[data-section]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.section;
+
+      // hide all sections
+      document.querySelectorAll("#mainContent > section").forEach((sec) => {
+        sec.style.display = "none";
+      });
+
+      // show selected
+      document.getElementById(target).style.display = "block";
+
+      // update active button
+      nav
+        .querySelectorAll(".nav-btn")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // smooth scroll to top of content
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+}
+
+// Helper used by nav buttons
+function showSection(id) {
+  const btn = document.querySelector(`.nav-btn[data-section="${id}"]`);
+  if (btn) btn.click();
 }
