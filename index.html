@@ -19,6 +19,8 @@
       </p>
       <p>before we get started, lets get to know each other</p>
       <button id="startBtn" onclick="getStarted()">get started</button>
+
+      <p>or<h5 id="skipIntro" onclick="skipIntro()">skip intro</h5></p>
     </div>
 
     <!-- PICK USERNAME -->
@@ -145,7 +147,7 @@
     <div id="mainContent" style="display: none">
       <!-- ==== DYNAMIC NAVIGATION BAR ==== -->
       <nav id="portfolioNav" class="nav-bar" style="display: none">
-        <button class="nav-btn active" data-section="about">About</button>
+        <button href="#about" class="nav-btn active" data-section="about">About</button>
         <button class="nav-btn" data-section="projects">Projects</button>
         <button class="nav-btn" data-section="contact">Contact</button>
         <a
@@ -184,7 +186,7 @@
           <li>Links to interesting papers</li>
           <li>Currency converter</li>
           <li><a href="projects/chess.html" target="_blank">Chess</a></li>
-          <li>Advanced Calculator</li>
+          <li><a href="projects/advancedCalculator.html" target="_blank">Advanced Calculator</a></li>
           <li>Keyboard Shortcut Guide</li>
           <li>Movie Decider</li>
           <li>Dinner-decider</li>

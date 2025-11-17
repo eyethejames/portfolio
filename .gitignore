@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Editor temp files
+*~
+*.swp
+
+# Node / build folders (if you ever add them)
+node_modules/
+dist/

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Calculator | eyeTheJames</title>
+
+    <!-- Portfolio Styles -->
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../project-page.css" />
+    <link rel="stylesheet" href="advCalc.css" />
+
+    <!-- Icon -->
+    <link rel="icon" href="../assets/icons/calc.ico" type="image/x-icon" />
+
+    <!-- Theme Persistence -->
+    <script src="../theme-persist.js" defer></script>
+  </head>
+  <body>
+    <a href="../index.html" class="back-link">Back to Portfolio</a>
+
+    <div class="project-page">
+      <h1>Calculator</h1>
+      <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+          <!-- Advanced Section (3 clean rows) -->
+          <div
+            id="advancedSection"
+            style="display: none; grid-column: 1 / -1; margin-top: 1.2rem"
+          >
+            <div class="advanced-grid">
+              <!-- Row 1: Memory -->
+              <button class="btn mem" onclick="memoryRecall()">MR</button>
+              <button class="btn mem" onclick="memoryClear()">MC</button>
+              <button class="btn mem" onclick="memoryAdd()">M+</button>
+              <button class="btn mem" onclick="memorySubtract()">M-</button>
+
+              <!-- Row 2: Trig & Log -->
+              <button class="btn sci" onclick="append('Math.sin(')">sin</button>
+              <button class="btn sci" onclick="append('Math.cos(')">cos</button>
+              <button class="btn sci" onclick="append('Math.tan(')">tan</button>
+              <button class="btn sci" onclick="append('Math.log10(')">
+                log
+              </button>
+
+              <!-- Row 3: Math functions -->
+              <button class="btn sci" onclick="append('Math.sqrt(')">√</button>
+              <button class="btn sci" onclick="append('Math.pow(')">x^y</button>
+              <button class="btn sci" onclick="append('Math.exp(')">e^x</button>
+              <button class="btn sci" onclick="append('Math.PI')">π</button>
+            </div>
+          </div>
+
+          <!-- Row 1 -->
+          <button class="btn" onclick="append('7')">7</button>
+          <button class="btn" onclick="append('8')">8</button>
+          <button class="btn" onclick="append('9')">9</button>
+          <button class="btn op" onclick="append('/')">/</button>
+
+          <!-- Row 2 -->
+          <button class="btn" onclick="append('4')">4</button>
+          <button class="btn" onclick="append('5')">5</button>
+          <button class="btn" onclick="append('6')">6</button>
+          <button class="btn op" onclick="append('*')">*</button>
+
+          <!-- Row 3 -->
+          <button class="btn" onclick="append('1')">1</button>
+          <button class="btn" onclick="append('2')">2</button>
+          <button class="btn" onclick="append('3')">3</button>
+          <button class="btn op" onclick="append('-')">-</button>
+
+          <!-- Row 4: Clear (left) + 0 + . + + -->
+          <button class="btn clear" onclick="clearDisplay()" id="clearBtn">
+            C
+          </button>
+          <button class="btn" onclick="append('0')">0</button>
+          <button class="btn" onclick="append('.')">.</button>
+          <button class="btn op" onclick="append('+')">+</button>
+
+          <!-- Row 5: Advanced Mode and = (50/50) -->
+          <button class="btn toggle" onclick="toggleAdvanced()" id="toggleBtn">
+            Advanced Mode
+          </button>
+          <button class="btn op" onclick="calculate()" id="equalsBtn">=</button>
+        </div>
+
+        <div class="history" id="history">
+          <h3>History</h3>
+        </div>
+      </div>
+    </div>
+
+    <script src="advCalc.js"></script>
+  </body>
+</html>

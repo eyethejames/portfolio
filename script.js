@@ -24,6 +24,42 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// When user skips intro
+function skipIntro() {
+  const openingBlock = document.getElementById("openingBlock");
+
+  // Remove opening block
+  openingBlock.classList.add("removing");
+
+  // Open portfolio view
+  enterPortfolio();
+
+  const visitData = {
+    username: "Guest",
+    myName: "none",
+    color: "none",
+    hue: "none",
+  };
+
+  // Send to Google Sheets
+  fetch(
+    "https://script.google.com/macros/s/AKfycbyfgPgbN6giXdD-rLqd4ghAnMAWF0ePMLOY425_J9aNf4OqDMjFCShPhjjpbT4m6hl4wA/exec",
+    {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(visitData),
+    }
+  )
+    .then(() => {
+      logVisit(visitData, true);
+    })
+    .catch((err) => {
+      logVisit(visitData, false);
+      console.error("Fetch error:", err);
+    });
+}
+
 // Starts the process: Fade out opening and show username card
 function getStarted() {
   const openingBlock = document.getElementById("openingBlock");
@@ -177,6 +213,8 @@ function previewColor(hue) {
   document.getElementById("hueValue").textContent = `${colorName} (${hue})`;
   document.body.style.background = hex;
   document.body.style.color = getContrastingText(hex);
+
+  styleProjectLinks();
 }
 
 // Submit color: Lock in choice and show welcome screen
@@ -269,12 +307,35 @@ function getContrastingText(hex) {
   return luminance > 0.5 ? "#000000" : "#ffffff";
 }
 
+/* -------------------------------------------------
+   Make every project link readable on any background
+   ------------------------------------------------- */
+function styleProjectLinks() {
+  const bgHex = getComputedStyle(document.body).backgroundColor;
+  // convert rgb(r, g, b) → #rrggbb if needed
+  const rgb = bgHex.match(/\d+/g);
+  const hex = rgb
+    ? `#${rgb.map((v) => (+v).toString(16).padStart(2, "0")).join("")}`
+    : bgHex;
+  const textColor = getContrastingText(hex);
+
+  document.querySelectorAll("#projectList a").forEach((a) => {
+    a.style.color = textColor;
+  });
+  // also colour the bullets
+  document.querySelectorAll("#projectList li::before").forEach((b) => {
+    b.style.color = textColor;
+  });
+}
+
 // Enter portfolio: Remove welcome card and show main content
 function enterPortfolio() {
   document.getElementById("welcomeScreen").remove();
   document.getElementById("mainContent").style.display = "block";
   initNav();
   showSection("about");
+
+  styleProjectLinks();
 }
 
 // Dynamic navigation

@@ -117,6 +117,14 @@ button {
   box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
 }
 
+#skipIntroBlock {
+  padding-top: 10%;
+}
+
+#skipIntro:hover {
+  cursor: pointer;
+}
+
 /* === BLUR + FADE OUT */
 #openingBlock.removing {
   opacity: 0;
@@ -469,6 +477,37 @@ select:hover {
 }
 .nav-btn.external {
   text-decoration: none;
+}
+
+/* ==== PROJECT LIST – ALWAYS VISIBLE LINKS ==== */
+#projectList {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+#projectList li {
+  position: relative;
+  padding-left: 1.8rem; /* space for the bullet */
+}
+
+#projectList li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* Links – colour is set by JavaScript (see below) */
+#projectList a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
+}
+#projectList a:hover {
+  opacity: 0.8;
 }
 
 /* === STANDARD CARD REVEAL ANIMATION === */
