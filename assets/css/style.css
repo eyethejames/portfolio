@@ -479,6 +479,57 @@ select:hover {
   text-decoration: none;
 }
 
+/* ==== ABOUT SECTION ==== */
+#feedback {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #ffc004;
+}
+
+.feedback-title {
+  margin-bottom: 0.8rem;
+}
+
+#feedbackText {
+  width: 40%;
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+}
+
+#feedbackText:focus {
+  outline: none;
+  border-color: #0066cc;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.feedback-row {
+  display: flex;
+  gap: 1rem; /* space between textarea and button */
+  align-items: center; /* aligns button to the top of the textarea */
+  justify-content: center;
+  flex-direction: column;
+}
+
+#giveFeedback {
+  display: flex;
+  align-self: center; /* vertically centers the button if textarea is taller */
+  white-space: nowrap; /* prevents button text from wrapping */
+}
+
+.feedback-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+}
+
 /* ==== PROJECT LIST – ALWAYS VISIBLE LINKS ==== */
 #projectList {
   list-style: none;

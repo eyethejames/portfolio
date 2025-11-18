@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>eyethejames</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
@@ -164,29 +164,42 @@
           Hi, I'm Jakob, a fresh developer who invites you to look at my
           projects and works while letting shape the experience of me.
         </p>
+        <div id="feedback">
+          <p class="feedback-title">Give me your feedback!</p>
+          <div class="feedback-row">
+          <textarea id="feedbackText" placeholder="“This website is great“" rows="5"></textarea>
+          <button id="giveFeedback">Submit</button>
+        </div>
+        <p class="feedback-note">Thanks!</p>
+        </div>
       </section>
 
       <section id="projects" class="info-card">
         <h2>Projects</h2>
         <ul id="projectList">
-          <li>Interactive Welcome Screen (this)</li>
+          <p><strong style="color: #ffc004;">functional:</strong></p>
+          <li><a href="index.html">Interactive Welcome Screen (this)</a></li>
+          <li><a href="projects/advancedCalculator/advancedCalculator.html" target="_blank">Advanced Calculator</a></li>
+          <p><strong style="color: #ffc004;">under construction:</strong></p>
           <li>
-            <a href="projects/spanishlearner.html" target="_blank"
+            <a href="projects/spanishLearner/spanishlearner.html" target="_blank"
               >Spanish Learner</a
             >
+            <li><a href="projects/history/historyLearner.html" target="_blank">History Learner</a></li>
           </li>
+          <p><strong style="color: #ffc004;">still prototyping...:</strong></p>
           <li>
-            <a href="projects/restaurantsranked.html" target="_blank"
+            <a href="projects/restaurantsRanked/restaurantsranked.html" target="_blank"
               >Restaurants ranked</a
             >
           </li>
           <li>
-            <a href="projects/movieranker.html" target="_blank">Movieranker</a>
+            <a href="projects/movieRanker/movieranker.html" target="_blank">Movieranker</a>
           </li>
-          <li>Links to interesting papers</li>
+          <li><a href="projects/chess/chess.html" target="_blank">Chess</a></li>
+          <p><strong style="color: #ffc004;">not started on:</strong></p>
+          <li>Interesting readings</li>
           <li>Currency converter</li>
-          <li><a href="projects/chess.html" target="_blank">Chess</a></li>
-          <li><a href="projects/advancedCalculator.html" target="_blank">Advanced Calculator</a></li>
           <li>Keyboard Shortcut Guide</li>
           <li>Movie Decider</li>
           <li>Dinner-decider</li>
@@ -196,9 +209,9 @@
       <section id="contact" class="info-card">
         <h2>Contact</h2>
         <p>Email: <a href="mailto:jakob@kallevik.no">jakob@kallevik.no</a></p>
-      </section>
+      </section>      
     </div>
 
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
