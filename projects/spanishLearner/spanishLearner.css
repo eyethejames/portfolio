@@ -1,0 +1,32 @@
+/* Container for each pair of modules */
+.project-page .module-pair {
+  display: flex !important; /* force modules to be side by side */
+  gap: 2rem; /* space between modules */
+  margin-bottom: 2rem; /* space between rows */
+  flex-wrap: wrap; /* wrap on small screens */
+  justify-content: center; /* center the pair horizontally */
+}
+
+/* Each individual module */
+.project-page .spanish-module {
+  flex: 1 1 45%; /* two modules per row */
+  min-width: 150px; /* prevent modules from shrinking too much */
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  color: darkred; /* optional, or keep inline <h4> color */
+}
+
+/* Optional: stack modules vertically on small screens */
+@media (max-width: 600px) {
+  .project-page .module-pair {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-page .spanish-module {
+    width: 80%; /* optional, keeps them from stretching too wide */
+  }
+}
