@@ -12,206 +12,72 @@
     <link rel="icon" href="assets/icons/faviconWhiteFlower.ico" />
   </head>
   <body>
-    <!-- OPENING BLOCK -->
-    <div id="openingBlock" class="opening-block" type="image/x-icon">
-      <p>
-        this website is provided to you while serving as my portfolio webpage
-      </p>
-      <p>before we get started, lets get to know each other</p>
-      <button id="startBtn" onclick="getStarted()">get started</button>
-
-      <p>or<h5 id="skipIntro" onclick="skipIntro()">skip intro</h5></p>
-    </div>
-
-    <!-- PICK USERNAME -->
-    <section class="info-card" id="usernameCard">
-      <h3>Choose your identity</h3>
-
-      <!-- WRAPPER: Column layout -->
-      <div id="usernameInputContainer" class="username-input-wrapper">
-        <!-- ROW 1: Input + Arrow -->
-        <div class="username-input">
-          <input
-            id="username"
-            type="text"
-            placeholder="Nickname..."
-            autocomplete="off"
-          />
-          <button
-            id="usernameBtn"
-            class="arrow-btn"
-            onclick="initSession(false)"
-            disabled
-          >
-            ➡️
-          </button>
-        </div>
-
-        <!-- ROW 2: OR Text -->
-        <p id="orText">------- or --------</p>
-
-        <!-- ROW 3: Incognito Button -->
-        <button id="anonymousBtn" class="btn" onclick="initSession(true)">
-          <!--stay anonym //-->go incognito
-        </button>
-      </div>
-    </section>
-
-    <!-- PICK MY NAME -->
-    <section class="info-card" id="nameCard">
-      <h1>
-        Hello, my friend. I'm
-        <br />
-        <span id="selectedName"
-          ><em
-            >{Select Your Preferred Name of My Preferred Names Below}</em
-          ></span
-        >
-      </h1>
-      <div id="nameInputContainer" class="name-input">
-        <select id="nameChoice">
-          <option value="" disabled selected="eyeTheJames">eyeTheJames</option>
-          <option value="James">James</option>
-          <option value="Jakob">Jakob</option>
-          <option value="Jakey">Jakey</option>
-        </select>
-        <button id="submitBtn" onclick="changeName()" class="btn">
-          Submit
-        </button>
-      </div>
-    </section>
-
-    <!-- NAME MODAL -->
-    <div id="nameModal" style="display: none">
-      <div class="modal-box">
-        <div class="modal-avatar">🤖</div>
-        <h3 id="modalTitle">Ooopsidoopsi! No name selected...</h3>
-        <p>
-          If you dont choose me a name,
-          <strong>I'll pick one myself. </strong>
-          <br /><br />Proceed or cancel?
-        </p>
-        <button class="btn cancelBtn" id="modalCancel">Return</button>
-        <button class="btn okBtn" id="modalOk">Let AI choose</button>
-      </div>
-    </div>
-
-    <!-- PICK COLOR -->
-    <section class="info-card" id="colorCard">
-      <div id="colorInputContainer">
-        <!--<p id="colorHint" style="color: #ffc004; font-style: italic; margin-top: 0.5rem;">← First, pick a name for me!</p>-->
-        <p>
-          ...as this is your experience of my home page, I invite you to
-          customize it
-        </p>
-        <p>
-          Find the most appealing color from the bar below, and press the
-          <strong>Magic!</strong> button
-        </p>
-        <div id="sliderContainer" class="slider-container">
-          <input
-            type="range"
-            id="hueSlider"
-            min="0"
-            max="360"
-            value="180"
-            step="5"
-            tabindex="0"
-            oninput="previewColor(this.value)"
-            onkeydown="handleKey(event)"
-          />
-          <span id="hueValue">name of color</span>
-        </div>
-        <div id="magicBtnContainer" class="magicButton-container">
-          <button id="magicBtn" onclick="submitColor()">Magic!</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO ENTRANCE -->
-    <section
-      id="welcomeScreen"
-      class="info-card"
-      style="display: none; text-align: center; padding: 3rem"
-    >
-      <h2 id="welcomeTitle">
-        <em><span id="finalHue"></span></em>, <strong>excellent choice!</strong>
-      </h2>
-      <p id="welcomeText1">I am: <span id="finalName"></span></p>
-      <p id="welcomeText2">You are: <span id="usersName"></span></p>
-      <p id="welcomeText3">Now the adventure begins...</p>
-      <button onclick="enterPortfolio()" class="btn">Enter portfolio</button>
-    </section>
 
     <!-- MAIN CONTENT -->
-    <div id="mainContent" style="display: none">
+    <div id="mainContent">
+      <!-- CUSTOMIZE PAGE BUTTON -->
+       <div>
+        <button id="customizeBtn" class="btn" onclick="location.href='customize.html'">Customize Page</button>
+        
+       </div>
+
       <!-- ==== DYNAMIC NAVIGATION BAR ==== -->
-      <nav id="portfolioNav" class="nav-bar" style="display: none">
-        <button href="#about" class="nav-btn active" data-section="about">About</button>
-        <button class="nav-btn" data-section="projects">Projects</button>
-        <button class="nav-btn" data-section="contact">Contact</button>
-        <a
-          href="https://github.com/eyethejames"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="nav-btn external"
-          >GitHub</a
-        >
+      <nav id="portfolioNav" class="nav-bar">
+        <button class="nav-btn active" data-section="about" onclick="setView('about')">About</button>
+        <button class="nav-btn" data-section="projects" onclick="setView('projects')">Projects</button>
+        <button class="nav-btn" data-section="contact" onclick="setView('contact')">Contact</button>
       </nav>
-      <section id="about" class="info-card">
+      <section id="about" class="main-card">
         <h2>About me</h2>
-        <p>
-          Hi, I'm Jakob, a fresh developer who invites you to look at my
-          projects and works while letting you shape the experience of me.
-        </p>
+        <p>Hi, I'm Jakob, a fresh developer who invites you to look at my projects and works.</p>
         <div id="feedback">
-          <p class="feedback-title">Give me your feedback!</p>
+          <!--<p class="feedback-title">Give me your feedback!</p>
           <div class="feedback-row">
           <textarea id="feedbackText" placeholder="“This website is great“" rows="5"></textarea>
           <button id="giveFeedback">Submit</button>
         </div>
-        <p class="feedback-note">Thanks!</p>
+        <p class="feedback-note">Thanks!</p> -->
         </div>
       </section>
 
-      <section id="projects" class="info-card">
+      <section id="projects" class="main-card">
         <h2>Projects</h2>
         <ul id="projectList">
-          <p><strong style="color: #ffc004;">functional:</strong></p>
-          <li><a href="index.html">Interactive Welcome Screen (this)</a></li>
+          <p><strong style="color: #ffc004;">up and running:</strong></p>
           <li><a href="projects/advancedCalculator/advancedCalculator.html" target="_blank">Advanced Calculator</a></li>
           <li>
             <a href="https://eyethejames.github.io/restaurants-ranked/" target="_blank"
-              >Restaurants ranked</a
+              >Restaurants (Madrid)</a
             >
           </li>
-          <li><a href="https://eyethejames.github.io/madrid-itinerary/" target="_blank">Madrid History Map</a></li>
+          <li><a href="https://eyethejames.github.io/madrid-itinerary/" target="_blank">A Madrid History Map</a></li>
           </li>
-          <p><strong style="color: #ffc004;">under construction:</strong></p>
-          <li>
-            <a href="projects/spanishLearner/spanishlearner.html" target="_blank"
-              >Spanish Learner</a
-            >
-          <p><strong style="color: #ffc004;">still prototyping...:</strong></p>
-          <li>
-            <a href="projects/movieRanker/movieranker.html" target="_blank">Movieranker</a>
-          </li>
-          <li><a href="projects/chess/chess.html" target="_blank">Chess</a></li>
-          <p><strong style="color: #ffc004;">not started on:</strong></p>
-          <li>Interesting readings</li>
-          <li>Currency converter</li>
-          <li>Keyboard Shortcut Guide</li>
-          <li>Movie Decider</li>
-          <li>Dinner-decider</li>
+          <p><strong style="color: #ffc004;">and more to come...</strong></p>
+
         </ul>
       </section>
 
-      <section id="contact" class="info-card">
+      <section id="contact" class="main-card">
         <h2>Contact</h2>
         <p>Email: <a href="mailto:jakob@kallevik.no">jakob@kallevik.no</a></p>
       </section>      
     </div>
 
+    <footer>
+      <a href="https://github.com/eyethejames" target="_blank" rel="noopener noreferrer">
+        GitHub
+      </a>
+    </footer>
+
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/portfolio-nav.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+      applyCustomization();
+      document.getElementById("portfolioNav").style.display = "flex";
+      const hash = location.hash.replace("#", "") || "about";
+      showSection(hash);
+    });
+    </script>
   </body>
 </html>

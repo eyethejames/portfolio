@@ -1,251 +1,13 @@
-// Global username default
-let username = "anonym";
+const DEFAULT_HUE = 180;
+const DEFAULT_USERNAME = "anonym";
 
-function logVisit(data, success) {
-  console.log("%cVisit logged:", data);
-  console.log(success ? "fetch succeeded" : "fetch failed");
-}
+const visitData = {
+  username: DEFAULT_USERNAME,
+  colorName: getColorName(DEFAULT_HUE),
+  hueValue: DEFAULT_HUE,
+};
 
-// DOMContentLoaded : Set up initial event listeners and animations
-document.addEventListener("DOMContentLoaded", () => {
-  const openingBlock = document.getElementById("openingBlock");
-  const input = document.getElementById("username");
-  const btn = document.getElementById("usernameBtn");
-
-  // Force reflow and add visible class for opening block
-  openingBlock.offsetHeight;
-  setTimeout(() => {
-    openingBlock.classList.add("visible");
-  }, 150);
-
-  // Enable username button only when input has text
-  input.addEventListener("input", () => {
-    btn.disabled = !input.value.trim();
-  });
-});
-
-// When user skips intro
-function skipIntro() {
-  const openingBlock = document.getElementById("openingBlock");
-
-  // Remove opening block
-  openingBlock.classList.add("removing");
-
-  // Open portfolio view
-  enterPortfolio();
-
-  const visitData = {
-    username: "Guest",
-    myName: "none",
-    color: "none",
-    hue: "none",
-  };
-
-  // Send to Google Sheets
-  fetch(
-    "https://script.google.com/macros/s/AKfycbyfgPgbN6giXdD-rLqd4ghAnMAWF0ePMLOY425_J9aNf4OqDMjFCShPhjjpbT4m6hl4wA/exec",
-    {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(visitData),
-    }
-  )
-    .then(() => {
-      logVisit(visitData, true);
-    })
-    .catch((err) => {
-      logVisit(visitData, false);
-      console.error("Fetch error:", err);
-    });
-}
-
-// Starts the process: Fade out opening and show username card
-function getStarted() {
-  const openingBlock = document.getElementById("openingBlock");
-  const usernameCard = document.getElementById("usernameCard");
-
-  openingBlock.classList.add("removing");
-
-  openingBlock.addEventListener(
-    "transitionend",
-    function handler() {
-      openingBlock.remove();
-      usernameCard.classList.add("visible");
-      setTimeout(() => {
-        usernameCard.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 100);
-      openingBlock.removeEventListener("transitionend", handler);
-    },
-    { once: true }
-  );
-}
-
-// Initizalize session: Set username -> Fade out username card -> Show name card
-function initSession(goIncognito = false) {
-  // Get username and span
-  const usernameInput = document.getElementById("username");
-  const usernameCard = document.getElementById("usernameCard");
-  const nameCard = document.getElementById("nameCard");
-
-  // Determine and store username
-  username = goIncognito ? "anonym" : usernameInput.value.trim() || "anonym";
-  localStorage.setItem("username", username);
-
-  // Animate out username card -> Show name card
-  usernameCard.classList.add("removing");
-
-  usernameCard.addEventListener(
-    "transitionend",
-    function handler() {
-      usernameCard.remove();
-      nameCard.classList.add("visible");
-      setTimeout(() => {
-        nameCard.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 100);
-      usernameCard.removeEventListener("transitionend", handler);
-    },
-    { once: true }
-  );
-}
-
-// Change name: Handle selection, modal for no selection and update UI
-function changeName() {
-  const select = document.getElementById("nameChoice");
-  const nameInputContainer = document.getElementById("nameInputContainer");
-  const nameSpan = document.getElementById("selectedName");
-  const modal = document.getElementById("nameModal");
-  const modalCancel = document.getElementById("modalCancel");
-  const modalOk = document.getElementById("modalOk");
-
-  let selectedValue = select.value;
-
-  // If no value is selected -> Popup Modal
-  if (!selectedValue) {
-    modal.style.display = "flex";
-    modalCancel.onclick = () => (modal.style.display = "none");
-    modalOk.onclick = () => {
-      modal.style.display = "none";
-      selectedValue = "The Beast";
-      updateName(selectedValue);
-    };
-    return;
-  }
-
-  // Update name
-  updateName(selectedValue);
-
-  function updateName(value) {
-    nameSpan.innerText = value;
-    localStorage.setItem("myName", value);
-    nameInputContainer.remove();
-
-    // Show color card
-    const colorCard = document.getElementById("colorCard");
-    colorCard.classList.add("visible");
-    setTimeout(() => {
-      colorCard.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  }
-}
-
-// Handle keyboard navigation for hue slider
-function handleKey(e) {
-  const slider = e.target;
-  let change = 0;
-
-  if (e.key === "ArrowLeft") change = -5;
-  else if (e.key === "ArrowRight") change = 5;
-  else if (e.key === "ArrowUp") change = 10;
-  else if (e.key === "ArrowDown") change = -10;
-
-  if (change !== 0) {
-    e.preventDefault();
-    const newValue = parseInt(slider.value) + change;
-    if (newValue >= 0 && newValue <= 360) {
-      slider.value = newValue;
-      previewColor(newValue);
-    }
-  }
-}
-
-// Map hue to color name (closest match)
-function getColorName(hue) {
-  const colorMap = {
-    0: "Blood Red",
-    15: "Dark Orange",
-    30: "Burnt Orange",
-    45: "Deep Gold",
-    60: "Olive",
-    75: "Forest Lime",
-    90: "Moss Green",
-    105: "Jungle Green",
-    120: "Emerald",
-    135: "Teal",
-    150: "Deep Cyan",
-    165: "Midnight Blue",
-    180: "Steel Blue",
-    195: "Navy",
-    210: "Indigo",
-    225: "Royal Blue",
-    240: "Dark Violet",
-    255: "Plum",
-    270: "Magenta",
-    285: "Deep Rose",
-    300: "Crimson",
-    315: "Wine Red",
-    330: "Maroon",
-    345: "Dark Scarlet",
-  };
-
-  const keys = Object.keys(colorMap).map(Number);
-  const closest = keys.reduce((a, b) =>
-    Math.abs(b - hue) < Math.abs(a - hue) ? b : a
-  );
-  return colorMap[closest];
-}
-
-// Live preview of changing background color with name
-function previewColor(hue) {
-  const hex = hslToHex(hue, 50, 25);
-  const colorName = getColorName(hue);
-
-  document.getElementById("hueValue").textContent = `${colorName} (${hue})`;
-  document.body.style.background = hex;
-  document.body.style.color = getContrastingText(hex);
-
-  styleProjectLinks();
-}
-
-// Submit color: Lock in choice and show welcome screen
-function submitColor() {
-  const slider = document.getElementById("hueSlider");
-  const nameCard = document.getElementById("nameCard");
-  const colorCard = document.getElementById("colorCard");
-  const hue = slider.value;
-  const colorName = getColorName(hue);
-  const myName = document.getElementById("selectedName").innerText;
-
-  // Remove name and color cards
-  nameCard.remove();
-  colorCard.remove();
-
-  // Show welcome screen and populate with inputs
-  const welcome = document.getElementById("welcomeScreen");
-  welcome.style.display = "block";
-
-  document.getElementById("finalName").innerText = myName;
-  document.getElementById("finalHue").innerText = colorName;
-  document.getElementById("usersName").innerText =
-    localStorage.getItem("username") || "anonym";
-
-  const visitData = {
-    username: localStorage.getItem("username") || "anonym",
-    myName: myName,
-    color: colorName,
-    hue: hue,
-  };
-
+function logVisit(visitData) {
   // Send to Google Sheets
   fetch(
     "https://script.google.com/macros/s/AKfycbyfgPgbN6giXdD-rLqd4ghAnMAWF0ePMLOY425_J9aNf4OqDMjFCShPhjjpbT4m6hl4wA/exec",
@@ -298,6 +60,15 @@ function hslToHex(h, s, l) {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
+function applyCustomization() {
+  // Get saved hue or use default
+  const hue = localStorage.getItem("hue") || DEFAULT_HUE;
+  const hex = hslToHex(parseInt(hue), 50, 25);
+
+  // Apply background and text color
+  document.body.style.backgroundColor = hex;
+}
+
 // Get contrasting text color
 function getContrastingText(hex) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -307,68 +78,41 @@ function getContrastingText(hex) {
   return luminance > 0.5 ? "#000000" : "#ffffff";
 }
 
-/* -------------------------------------------------
-   Make every project link readable on any background
-   ------------------------------------------------- */
-function styleProjectLinks() {
-  const bgHex = getComputedStyle(document.body).backgroundColor;
-  // convert rgb(r, g, b) → #rrggbb if needed
-  const rgb = bgHex.match(/\d+/g);
-  const hex = rgb
-    ? `#${rgb.map((v) => (+v).toString(16).padStart(2, "0")).join("")}`
-    : bgHex;
-  const textColor = getContrastingText(hex);
+// Get color name for live preview
+function getColorName(hue) {
+  // Normalize hue
+  hue = ((hue % 360) + 360) % 360;
 
-  document.querySelectorAll("#projectList a").forEach((a) => {
-    a.style.color = textColor;
-  });
-  // also colour the bullets
-  document.querySelectorAll("#projectList li::before").forEach((b) => {
-    b.style.color = textColor;
-  });
-}
+  const colorMap = {
+    0: "Blood Red",
+    15: "Dark Orange",
+    30: "Burnt Orange",
+    45: "Deep Gold",
+    60: "Golden Yellow",
+    75: "Lime",
+    90: "Forest Green",
+    105: "Jungle Green",
+    120: "Emerald",
+    135: "Teal",
+    150: "Deep Cyan",
+    165: "Turquoise",
+    180: "Steel Blue",
+    195: "Ocean Blue",
+    210: "Indigo",
+    225: "Royal Blue",
+    240: "Violet",
+    255: "Plum",
+    270: "Magenta",
+    285: "Rose",
+    300: "Crimson",
+    315: "Wine",
+    330: "Maroon",
+    345: "Scarlet",
+  };
 
-// Enter portfolio: Remove welcome card and show main content
-function enterPortfolio() {
-  document.getElementById("welcomeScreen").remove();
-  document.getElementById("mainContent").style.display = "block";
-  initNav();
-  showSection("about");
-
-  styleProjectLinks();
-}
-
-// Dynamic navigation
-function initNav() {
-  const nav = document.getElementById("portfolioNav");
-  nav.style.display = "flex";
-
-  document.querySelectorAll(".nav-btn[data-section]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const target = btn.dataset.section;
-
-      // hide all sections
-      document.querySelectorAll("#mainContent > section").forEach((sec) => {
-        sec.style.display = "none";
-      });
-
-      // show selected
-      document.getElementById(target).style.display = "block";
-
-      // update active button
-      nav
-        .querySelectorAll(".nav-btn")
-        .forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      // smooth scroll to top of content
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  });
-}
-
-// Helper used by nav buttons
-function showSection(id) {
-  const btn = document.querySelector(`.nav-btn[data-section="${id}"]`);
-  if (btn) btn.click();
+  const keys = Object.keys(colorMap).map(Number);
+  const closest = keys.reduce((a, b) =>
+    Math.abs(b - hue) < Math.abs(a - hue) ? b : a
+  );
+  return colorMap[closest];
 }

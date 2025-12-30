@@ -8,7 +8,7 @@ body {
   text-align: center;
   background: #4c1515;
   color: #f8f8f8;
-  padding: 2rem;
+  /* padding: 2rem; */
   min-height: 100vh;
   line-height: 1.6;
   display: flex;
@@ -52,8 +52,38 @@ p {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Standard Main Info Card */
+.main-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 192, 4, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  max-width: 1200px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
 .info-card:hover {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.opening-block,
+.info-card {
+  opacity: 0;
+  transition: opacity 0.7s ease-out;
+}
+
+.opening-block.removing,
+.info-card.removing {
+  opacity: 0;
 }
 
 /* Standard Buttons */
@@ -234,12 +264,6 @@ button {
   transition: all 0.6s ease;
 }
 
-/* === NAME CARD REVEAL === */
-#nameCard.visible {
-  animation: slideUpCard 0.8s ease-out forwards;
-  pointer-events: auto;
-}
-
 /* === DROPDOWN MENU === */
 select {
   min-width: 220px; /* Slightly bigger */
@@ -279,66 +303,6 @@ select:hover {
   transform: scale(0.95);
 }
 
-/* === POP-UP MODAL WHEN !SELECTED NAME === */
-#nameModal {
-  position: fixed;
-  inset: 0;
-  background: rgb(0, 0, 0, 0.65);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* === POP-UP MODAL BOX === */
-.modal-box {
-  background: #4c1515; /* Matches body bg */
-  color: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  border: 2px solid rgb(255, 192, 4); /* Gold border */
-  margin: 0 0 25%;
-}
-
-/* === POP-UP MODAL EMOJI === */
-.modal-avatar {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 1rem;
-  background: rgb(255, 192, 4); /* Gold */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  animation: pulse 1.5s infinite;
-}
-
-/* === POP-UP MODAL BUTTONS === */
-.modal-buttons {
-  margin-top: 1rem;
-}
-.cancelBtn {
-  color: #206005;
-  background: #ffc004;
-}
-.okBtn {
-  color: #ffc004;
-  background: #206005;
-}
-.cancelBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-}
-.okBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-}
-
 /* === EMPHASIS ON SELECTED NAME === */
 #selectedName {
   color: rgb(255, 192, 94);
@@ -361,6 +325,7 @@ select:hover {
   align-items: center;
   gap: 0.5rem;
 }
+
 #hueSlider {
   -webkit-appearance: none; /* Override default */
   width: 280px; /* Slightly wider */
@@ -453,6 +418,28 @@ select:hover {
   transform: scale(0.95);
 }
 
+/* === WELCOME SCREEN CARD REVEAL === */
+#welcomeScreen.visible {
+  animation: slideUpCard 0.7s ease-out forwards;
+  pointer-events: auto;
+}
+
+#customizeBtn {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.3s;
+}
+
 .nav-bar {
   display: flex;
   justify-content: center;
@@ -475,8 +462,30 @@ select:hover {
   background: var(--text);
   color: var(--bg);
 }
+/* Force all links and nav buttons to white */
+a,
+.nav-btn {
+  color: #ffffff !important;
+}
+
 .nav-btn.external {
   text-decoration: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: auto;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+footer a {
+  color: white;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
 }
 
 /* ==== ABOUT SECTION ==== */
@@ -586,16 +595,5 @@ select:hover {
   }
   to {
     opacity: 1;
-  }
-}
-
-/* === EMOIJ PULSATING EFFECT === */
-@keyframes pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 192, 4, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 12px rgba(255, 192, 4, 0);
   }
 }

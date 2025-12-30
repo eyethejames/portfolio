@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eyethejames</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="assets/icons/faviconWhiteFlower.ico" />
+  </head>
+  <body>
+    <!-- OPENING BLOCK -->
+    <div id="openingBlock" class="opening-block" type="image/x-icon">
+      <p>
+        OK, want to change my design?
+      </p>
+      <button id="startBtn" onclick="chooseUsername()">yes please</button>
+
+      <p>or<h5 id="returnToMain" onclick="returnToMain()">no its alright</h5></p>
+    </div>
+
+    <!-- Short transition between the modals -->
+
+    <!-- PICK USERNAME -->
+    <section class="info-card" id="usernameCard">
+        <p>but first...</p>
+      <h3>Choose your identity</h3>
+
+      <!-- WRAPPER: Column layout -->
+      <div id="usernameInputContainer" class="username-input-wrapper">
+        <!-- ROW 1: Input + Arrow -->
+        <div class="username-input">
+          <input
+            id="username"
+            type="text"
+            placeholder="Nickname..."
+            autocomplete="off"
+          />
+          <button
+            id="usernameBtn"
+            class="arrow-btn"
+            onclick="initSession(false)"
+            disabled
+          >
+            ➡️
+          </button>
+        </div>
+
+        <!-- ROW 2: OR Text -->
+        <p id="orText">------- or --------</p>
+
+        <!-- ROW 3: Incognito Button -->
+        <button id="anonymousBtn" class="btn" onclick="initSession(true)">
+          <!--stay anonym //-->go incognito
+        </button>
+      </div>
+    </section>
+
+    <!-- PICK COLOR -->
+    <section class="info-card" id="colorCard">
+      <div id="colorInputContainer">
+        <!--<p id="colorHint" style="color: #ffc004; font-style: italic; margin-top: 0.5rem;">← First, pick a name for me!</p>-->
+        <p>
+          ...as this is your experience of my home page, I invite you to
+          customize it
+        </p>
+        <p>
+          Find the most appealing color from the bar below, and press the
+          <strong>Magic!</strong> button
+        </p>
+        <div id="sliderContainer" class="slider-container">
+          <input
+            type="range"
+            id="hueSlider"
+            min="0"
+            max="360"
+            value="180"
+            step="5"
+            tabindex="0"
+            onkeydown="handleKey(event)"
+          />
+          <span id="hueValue">name of color</span>
+        </div>
+        <div id="magicBtnContainer" class="magicButton-container">
+          <button id="magicBtn" onclick="submitColor()">Magic!</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO ENTRANCE -->
+    <section id="welcomeScreen" class="info-card">
+      <h2 id="welcomeTitle">
+        <em><span id="newHue"></span></em>
+        <br><strong>excellent choice <span id="newUsername"></span>!</strong>
+      </h2>
+      <button onclick="enterPortfolio()" class="btn">Return to portfolio</button>
+    </section>
+
+    <script src="assets/js/script.js"></script>
+    
+    <script>
+
+        window.addEventListener("load", () => {
+            const openingBlock = document.getElementById("openingBlock");
+            if (openingBlock) {
+                openingBlock.style.display = "block";
+                openingBlock.classList.remove("removing");
+                openingBlock.classList.add("visible");
+            }
+
+        });
+
+        // On page load: apply saved customization if exists
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedHue = localStorage.getItem("hue");
+            const savedUsername = localStorage.getItem("username") || "anonym";
+
+            if (savedUsername && savedUsername !== "anonym") {
+                username.placeholder = savedUsername;
+            }
+
+            const input = document.getElementById("username");
+            const btn = document.getElementById("usernameBtn");
+
+            if (input && btn) {
+                input.addEventListener("input", () => {
+                btn.disabled = !input.value.trim();
+                });
+            }
+
+            if (input) {
+                input.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        
+                        // If input has text
+                        const hasText = input.value.trim().length > 0;
+                        
+                        if (hasText & !btn.disabled) {
+                            initSession(false);
+                        } else {
+                            initSession(true);
+                        }
+                    }
+                });
+            }
+
+            if (savedHue) {
+                const hueSlider = document.getElementById("hueSlider");
+                const hueValue = document.getElementById("hueValue");
+
+                hueSlider.value = savedHue;
+
+                const hex = hslToHex(parseInt(savedHue), 50, 25);
+                document.body.style.backgroundColor = hex;
+                hueValue.textContent = `${getColorName(savedHue)}`;
+            }
+            document.getElementById("openingBlock").classList.add("visible");
+        });
+
+        const hueSlider = document.getElementById("hueSlider");
+        const hueValue = document.getElementById("hueValue");
+
+        hueSlider.addEventListener("input", (e) => {
+            const hue = e.target.value;
+            const hex = hslToHex(hue, 50, 25);
+            document.body.style.backgroundColor = hex;
+            if (hueValue) hueValue.textContent = `${getColorName(hue)}`;
+        });
+
+        function returnToMain() {
+            setTimeout(location.href = "index.html", 500);
+        }
+
+        function chooseUsername() {
+
+            document.getElementById("openingBlock").classList.add("removing");
+
+            setTimeout(() => {
+                document.getElementById("usernameCard").classList.add("visible");
+            }, 500);
+        }
+
+        function initSession(incognito = false) {
+            const usernameInput = document.getElementById("username");
+            const username = incognito ? "anonym" : (usernameInput.value.trim() || "anonym");
+ 
+            localStorage.setItem("username", username);
+
+            showNextCard("usernameCard", "colorCard");
+        }
+
+        function submitColor() {
+            
+            const usernameInput = document.getElementById("username");
+            const colorName = getColorName(localStorage.getItem("hue"));
+            
+            const hueValue = hueSlider.value;
+            const username = usernameInput ? usernameInput.value.trim() || "anonym" : "anonym";
+            
+            // Save to local storage
+            localStorage.setItem("hue", hueValue);
+            localStorage.setItem("username", username);
+
+            document.getElementById("newHue").textContent = getColorName(hueValue);
+            document.getElementById("newUsername").textContent = username;
+
+            const visitData = {
+                username : username,
+                color : colorName,
+                hue : hueValue,
+            }
+            logVisit(visitData);
+
+            showNextCard("colorCard", "welcomeScreen");
+        }
+
+        function enterPortfolio() {
+            // Go back to main portfolio
+            location.href = "index.html";
+        }
+
+        function showNextCard(currentCard, nextCard) {
+            const current = document.getElementById(currentCard);
+            const next = document.getElementById(nextCard);
+
+            current.classList.add("removing");
+
+            const onTransitionEnd = () => {
+                next.classList.add("visible");
+                current.classList.remove("visible", "removing");
+                current.removeEventListener("transitionend", onTransitionEnd);
+            };
+            current.addEventListener("transitionend", onTransitionEnd);
+        }
+
+    </script>
+
+  </body>
+</html>
