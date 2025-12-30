@@ -29,30 +29,12 @@ h3 {
 p {
   color: rgb(255, 255, 255);
   max-width: 675px;
-  margin: 1 auto 1.5rem;
+  margin: 1rem auto 1.5rem;
   font-size: 1.05rem;
 }
 
-/* Standard Info Card */
-.info-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 192, 4, 0.2);
-  border-radius: 16px;
-  padding: 2rem;
-  margin: 1.5rem auto;
-  max-width: 1200px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Standard Main Info Card */
+/* Standard Card (used for both main and info cards) */
+.info-card,
 .main-card {
   display: flex;
   flex-direction: column;
@@ -147,13 +129,7 @@ button {
   box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
 }
 
-#skipIntroBlock {
-  padding-top: 10%;
-}
-
-#skipIntro:hover {
-  cursor: pointer;
-}
+/* removed unused skip-intro helpers */
 
 /* === BLUR + FADE OUT */
 #openingBlock.removing {
@@ -264,51 +240,9 @@ button {
   transition: all 0.6s ease;
 }
 
-/* === DROPDOWN MENU === */
-select {
-  min-width: 220px; /* Slightly bigger */
-  padding: 0.75rem 1.25rem; /* More space inside */
-  font-size: 1.1rem; /* Bigger text */
-  background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.1); /* Opaque for readability ??? */
-  background-position: right 12px center;
-  border-radius: 10px;
-  cursor: pointer;
-  outline: none;
-  border: 2px solid rgb(255, 192, 4); /* Gold border */
-  color: #ffffff; /* White text */
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-select:focus {
-  box-shadow: 0 0 0 3px rgb(0, 0, 0); /* Glow */
-}
-select:hover {
-  transform: translateY(-1.5px);
-}
+/* removed dropdown/select styling (no selects in current pages) */
 
-/* === SUBMIT NAME BUTTON === */
-#submitBtn {
-  padding: 12px 20px;
-  border-radius: 250px;
-  background-color: rgb(3, 3, 86); /* Your blue */
-  box-shadow: 0 4px 12px rgba(3, 3, 86, 0.3);
-  transition: transform 0.15s, box-shadow 0.2s;
-  border: 3px solid #ffc004;
-}
-#submitBtn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(3, 3, 86, 0.5);
-}
-#submitBtn:active {
-  transform: scale(0.95);
-}
-
-/* === EMPHASIS ON SELECTED NAME === */
-#selectedName {
-  color: rgb(255, 192, 94);
-  font-weight: 600;
-  font-style: italic;
-}
+/* removed unused submit/selectedName helpers */
 
 /* === COLOR CARD REVEAL === */
 #colorCard.visible {
@@ -449,8 +383,8 @@ select:hover {
 }
 .nav-btn {
   background: transparent;
-  border: 2px solid var(--text);
-  color: var(--text);
+  border: 2px solid var(--gold);
+  color: var(--gold);
   padding: 0.6rem 1.2rem;
   font-family: inherit;
   font-weight: 600;
@@ -459,18 +393,15 @@ select:hover {
 }
 .nav-btn:hover,
 .nav-btn.active {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--gold);
+  color: var(--blue);
 }
-/* Force all links and nav buttons to white */
-a,
-.nav-btn {
-  color: #ffffff !important;
+/* keep normal links white by default */
+a {
+  color: #ffffff;
 }
 
-.nav-btn.external {
-  text-decoration: none;
-}
+/* .nav-btn.external removed (unused) */
 
 /* Footer */
 footer {
@@ -488,56 +419,7 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* ==== ABOUT SECTION ==== */
-#feedback {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #ffc004;
-}
-
-.feedback-title {
-  margin-bottom: 0.8rem;
-}
-
-#feedbackText {
-  width: 40%;
-  padding: 1rem;
-  border: 2px solid #ddd;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-  transition: all 0.3s ease;
-  background-color: #fafafa;
-}
-
-#feedbackText:focus {
-  outline: none;
-  border-color: #0066cc;
-  background-color: white;
-  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
-}
-
-.feedback-row {
-  display: flex;
-  gap: 1rem; /* space between textarea and button */
-  align-items: center; /* aligns button to the top of the textarea */
-  justify-content: center;
-  flex-direction: column;
-}
-
-#giveFeedback {
-  display: flex;
-  align-self: center; /* vertically centers the button if textarea is taller */
-  white-space: nowrap; /* prevents button text from wrapping */
-}
-
-.feedback-note {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #777;
-  font-style: italic;
-}
+/* Feedback form styles removed — add back when enabling feedback feature */
 
 /* ==== PROJECT LIST – ALWAYS VISIBLE LINKS ==== */
 #projectList {
@@ -588,12 +470,4 @@ footer a:hover {
   }
 }
 
-/* === POPUP ANIMATION === */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* fadeIn keyframes removed (unused) */

@@ -13,7 +13,7 @@
 
 ---
 
-## Google Apps Script
+## Google Apps Script - Visitor Log
 
 - **Project:** `Portfolio Visitor Log`
 - **Deployment URL (DO NOT CHANGE):**
@@ -21,6 +21,15 @@
 
 - **Status:** Active, "Anyone" access, default version
 - **Sheet ID:** `14JV-EzlOfRoCmmgxyZj2MofNLY617ZysBu55bqlnDZs`
+
+---
+
+## Google Apps Script - Authentification
+
+- **Deployment URL (DO NOT CHANGE):**
+https://script.google.com/macros/s/AKfycbzqYZB5fxUVNUTlxDqRXKIu_PgwTPI9IkpB2v6byJTl6wRWTog69zuNSMGuLzFCh5eJ/exec
+
+- **Sheet ID:** `AKfycbzqYZB5fxUVNUTlxDqRXKIu_PgwTPI9IkpB2v6byJTl6wRWTog69zuNSMGuLzFCh5eJ`
 
 ---
 
