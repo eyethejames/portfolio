@@ -84,20 +84,46 @@ function createResponse(data) {
 // ===========================================================================
 // WEB APP ENDPOINTS
 // ===========================================================================
+//
+// CORS FIX: Google Apps Script håndterer CORS på en spesiell måte.
+// Vi bruker doGet med URL-parametere for å unngå CORS-problemer.
+// Alternativt kan doPost brukes med 'mode: no-cors', men da får vi ikke
+// lese responsen. Løsningen er å bruke doGet for alt.
+// ===========================================================================
 
 /**
- * Handle GET requests (optional - for health check)
+ * Handle GET requests - Main endpoint for authentication
+ * Using GET to avoid CORS preflight issues
+ *
+ * Parameters:
+ * - action: "login" | "verify" | "health"
+ * - username: (for login)
+ * - password: (for login) - Base64 encoded for URL safety
  */
 function doGet(e) {
-  return createResponse({
-    status: "ok",
-    message: "Auth API is running",
-    timestamp: new Date().toISOString()
-  });
+  const params = e.parameter;
+  const action = params.action || "health";
+
+  switch (action) {
+    case "login":
+      return handleLoginGet(params);
+
+    case "verify":
+      return handleVerify(params);
+
+    case "health":
+    default:
+      return createResponse({
+        status: "ok",
+        message: "Auth API is running",
+        timestamp: new Date().toISOString()
+      });
+  }
 }
 
 /**
- * Handle POST requests (login, logout, verify)
+ * Handle POST requests (kept for compatibility, but GET is preferred)
+ * Note: POST requests may have CORS issues from some origins
  */
 function doPost(e) {
   try {
@@ -125,6 +151,51 @@ function doPost(e) {
       message: "Server error: " + error.toString()
     });
   }
+}
+
+/**
+ * Handle login via GET request (CORS-safe)
+ */
+function handleLoginGet(params) {
+  const username = (params.username || "").toLowerCase().trim();
+  // Password is Base64 encoded in URL for safety
+  let password = "";
+  try {
+    password = Utilities.newBlob(Utilities.base64Decode(params.password || "")).getDataAsString();
+  } catch (e) {
+    password = params.password || ""; // Fallback to plain if not encoded
+  }
+
+  // Check if user exists
+  if (!USERS[username]) {
+    Utilities.sleep(500);
+    return createResponse({
+      success: false,
+      message: "Feil brukernavn eller passord"
+    });
+  }
+
+  const user = USERS[username];
+
+  // Verify password
+  if (!verifyPassword(password, user.passwordHash)) {
+    Utilities.sleep(500);
+    return createResponse({
+      success: false,
+      message: "Feil brukernavn eller passord"
+    });
+  }
+
+  // Login successful
+  Logger.log("Successful login: " + username + " at " + new Date().toISOString());
+
+  return createResponse({
+    success: true,
+    message: "Innlogget",
+    username: username,
+    role: user.role,
+    name: user.name
+  });
 }
 
 /**

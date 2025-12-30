@@ -70,22 +70,27 @@ const AuthModule = (function () {
   return {
     /**
      * Authenticate user against GAS backend
+     * Uses GET request with URL parameters to avoid CORS preflight issues.
+     * Password is Base64 encoded for URL safety.
+     *
      * @param {string} username
      * @param {string} password
      * @returns {Promise<{success: boolean, message?: string, user?: object}>}
      */
     async login(username, password) {
       try {
-        const response = await fetch(AUTH_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "login",
-            username: username,
-            password: password,
-          }),
+        // Base64 encode password for URL safety
+        const encodedPassword = btoa(unescape(encodeURIComponent(password)));
+
+        // Build URL with query parameters (GET request avoids CORS preflight)
+        const url = new URL(AUTH_ENDPOINT);
+        url.searchParams.append("action", "login");
+        url.searchParams.append("username", username);
+        url.searchParams.append("password", encodedPassword);
+
+        const response = await fetch(url.toString(), {
+          method: "GET",
+          // No special headers needed for GET - avoids CORS preflight
         });
 
         // GAS returns text, parse as JSON
@@ -95,6 +100,7 @@ const AuthModule = (function () {
         if (result.success) {
           saveSession({
             username: result.username,
+            name: result.name,
             role: result.role || "user",
             loginTime: new Date().toISOString(),
           });
