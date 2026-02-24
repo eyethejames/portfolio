@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin Panel - Portfolio</title>
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      .admin-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .admin-header h1 {
+        margin: 0;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-badge {
+        background: rgba(255, 192, 4, 0.2);
+        color: var(--gold);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+      }
+
+      .logout-btn {
+        padding: 0.5rem 1rem;
+        background: transparent;
+        color: #ff6b6b;
+        border: 1px solid #ff6b6b;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .logout-btn:hover {
+        background: rgba(255, 107, 107, 0.1);
+      }
+
+      .admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .admin-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 192, 4, 0.2);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: left;
+      }
+
+      .admin-card h2 {
+        font-size: 1.3rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+
+      .admin-card p {
+        font-size: 0.95rem;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .action-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .action-list li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .action-list li:last-child {
+        border-bottom: none;
+      }
+
+      .action-list a {
+        color: var(--gold);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .action-list a:hover {
+        text-decoration: underline;
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .loading-overlay.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading overlay while checking auth -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <p>Sjekker tilgang...</p>
+    </div>
+
+    <div id="adminContent" class="admin-container" style="display: none">
+      <header class="admin-header">
+        <h1>Admin Panel</h1>
+        <div class="user-info">
+          <span class="user-badge" id="userBadge">Laster...</span>
+          <button class="logout-btn" onclick="AuthModule.logout()">
+            Logg ut
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-grid">
+        <!-- Statistics Card -->
+        <div class="admin-card">
+          <h2>Statistikk</h2>
+          <span class="stat-number" id="visitorCount">--</span>
+          <p>Besokende denne uken</p>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="admin-card">
+          <h2>Hurtighandlinger</h2>
+          <ul class="action-list">
+            <li>
+              <a href="index.html" target="_blank">
+                Se portfolio
+              </a>
+            </li>
+            <li>
+              <a href="customize.html" target="_blank">
+                Test tilpasningsside
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.google.com/spreadsheets" target="_blank">
+                Se besokslogg (Google Sheets)
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="admin-card">
+          <h2>Innstillinger</h2>
+          <p>
+            Administrer prosjekter, oppdater innhold, og konfigurer
+            nettstedsinnstillinger.
+          </p>
+          <ul class="action-list">
+            <li>
+              <a href="#">Rediger prosjekter</a>
+            </li>
+            <li>
+              <a href="#">Oppdater kontaktinfo</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Session Info Card -->
+        <div class="admin-card">
+          <h2>Sesjonsinformasjon</h2>
+          <p><strong>Innlogget som:</strong> <span id="sessionUser">--</span></p>
+          <p><strong>Rolle:</strong> <span id="sessionRole">--</span></p>
+          <p><strong>Innlogget:</strong> <span id="sessionTime">--</span></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+    <script>
+      // Require authentication to view this page
+      document.addEventListener("DOMContentLoaded", function () {
+        const loadingOverlay = document.getElementById("loadingOverlay");
+        const adminContent = document.getElementById("adminContent");
+
+        // Check if user is authenticated
+        if (!AuthModule.isAuthenticated()) {
+          window.location.href = "admin-login.html";
+          return;
+        }
+
+        // User is authenticated - show content
+        loadingOverlay.classList.add("hidden");
+        adminContent.style.display = "block";
+
+        // Populate user info
+        const user = AuthModule.getCurrentUser();
+        if (user) {
+          document.getElementById("userBadge").textContent =
+            user.name || user.username;
+          document.getElementById("sessionUser").textContent = user.username;
+          document.getElementById("sessionRole").textContent = user.role;
+          document.getElementById("sessionTime").textContent = new Date(
+            user.loginTime
+          ).toLocaleString("no-NO");
+        }
+
+        // TODO: Fetch actual stats from backend
+        // For now, show placeholder
+        document.getElementById("visitorCount").textContent = "42";
+      });
+    </script>
+  </body>
+</html>
