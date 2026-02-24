@@ -7,23 +7,50 @@ const visitData = {
   hueValue: DEFAULT_HUE,
 };
 
+// =============================================================================
+// SECURITY FIX: API Endpoint Configuration
+// =============================================================================
+// TODO: @Jakob - Replace this with your authenticated backend endpoint
+//
+// PREVIOUS (INSECURE - hardcoded Google Apps Script URL):
+// const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbyfgPgbN6giXdD-rLqd4ghAnMAWF0ePMLOY425_J9aNf4OqDMjFCShPhjjpbT4m6hl4wA/exec";
+//
+// RECOMMENDED: Use environment variable or config, e.g.:
+// const API_ENDPOINT = process.env.API_ENDPOINT || "/api/log-visit";
+//
+// For now, set your backend URL here:
+const API_ENDPOINT = "YOUR_BACKEND_API_ENDPOINT_HERE";
+
+// TODO: @Jakob - Add your authentication token/method here
+// Options:
+// 1. API Key in header: headers: { "Authorization": "Bearer YOUR_API_KEY" }
+// 2. CSRF token from meta tag
+// 3. Session-based auth if user is logged in
+const AUTH_CONFIG = {
+  // Add authentication headers here
+  // "Authorization": "Bearer YOUR_API_KEY",
+};
+// =============================================================================
+
 function logVisit(visitData) {
-  // Send to Google Sheets
-  fetch(
-    "https://script.google.com/macros/s/AKfycbyfgPgbN6giXdD-rLqd4ghAnMAWF0ePMLOY425_J9aNf4OqDMjFCShPhjjpbT4m6hl4wA/exec",
-    {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(visitData),
-    }
-  )
-    .then(() => {
-      logVisit(visitData, true);
+  // Send to backend API with authentication
+  fetch(API_ENDPOINT, {
+    method: "POST",
+    mode: "cors", // Changed from "no-cors" to allow proper CORS with auth
+    headers: {
+      "Content-Type": "application/json",
+      ...AUTH_CONFIG,
+    },
+    body: JSON.stringify(visitData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log("Visit logged successfully");
     })
     .catch((err) => {
-      logVisit(visitData, false);
-      console.error("Fetch error:", err);
+      console.error("Failed to log visit:", err);
     });
 }
 
